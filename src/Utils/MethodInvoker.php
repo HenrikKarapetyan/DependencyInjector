@@ -6,13 +6,14 @@ namespace Henrik\DI\Utils;
 
 use Henrik\DI\Exceptions\ClassNotFoundException;
 use Henrik\DI\Exceptions\MethodNotFoundException;
+use Hk\Contracts\MethodInvokerInterface;
 use ReflectionException;
 use ReflectionMethod;
 
 /**
  * Class MethodInvoker.
  */
-class MethodInvoker
+class MethodInvoker implements MethodInvokerInterface
 {
     use MethodORFunctionDependencyLoaderTrait;
 

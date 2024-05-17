@@ -6,13 +6,14 @@ namespace Henrik\DI\Utils;
 
 use Closure;
 use Henrik\DI\Exceptions\ClassNotFoundException;
+use Hk\Contracts\FunctionInvokerInterface;
 use ReflectionException;
 use ReflectionFunction;
 
 /**
  * Class FunctionInvoker.
  */
-class FunctionInvoker
+class FunctionInvoker implements FunctionInvokerInterface
 {
     use MethodORFunctionDependencyLoaderTrait;
 
