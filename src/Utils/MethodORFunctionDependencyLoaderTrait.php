@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Henrik\DI\Utils;
 
-use henrik\container\exceptions\IdAlreadyExistsException;
-use henrik\container\exceptions\ServiceNotFoundException;
-use Henrik\DI\DependencyInjector;
+use Henrik\DI\DependencyInjectorInterface;
 use Henrik\DI\Exceptions\ClassNotFoundException;
-use Henrik\DI\Exceptions\UnknownScopeException;
 use ReflectionNamedType;
 use ReflectionParameter;
 
@@ -17,16 +14,13 @@ use ReflectionParameter;
  */
 trait MethodORFunctionDependencyLoaderTrait
 {
-    public function __construct(private readonly DependencyInjector $dependencyInjector) {}
+    public function __construct(private readonly DependencyInjectorInterface $dependencyInjector) {}
 
     /**
      * @param array<int, reflectionParameter> $methodParams
      * @param array<int|string, mixed>        $args
      *
-     * @throws \Henrik\DI\Exceptions\ServiceNotFoundException
-     * @throws UnknownScopeException|ClassNotFoundException
-     * @throws ServiceNotFoundException
-     * @throws IdAlreadyExistsException
+     * @throws ClassNotFoundException
      *
      * @return array<int, mixed>
      */

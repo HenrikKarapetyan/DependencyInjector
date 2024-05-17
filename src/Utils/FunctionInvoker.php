@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Henrik\DI\Utils;
 
 use Closure;
-use henrik\container\exceptions\IdAlreadyExistsException;
-use henrik\container\exceptions\ServiceNotFoundException;
 use Henrik\DI\Exceptions\ClassNotFoundException;
-use Henrik\DI\Exceptions\UnknownScopeException;
 use ReflectionException;
 use ReflectionFunction;
 
@@ -23,12 +20,8 @@ class FunctionInvoker
      * @param Closure                  $func
      * @param array<int|string, mixed> $args
      *
-     * @throws ClassNotFoundException
-     * @throws IdAlreadyExistsException
      * @throws ReflectionException
-     * @throws ServiceNotFoundException
-     * @throws UnknownScopeException
-     * @throws \Henrik\DI\Exceptions\ServiceNotFoundException
+     * @throws ClassNotFoundException
      *
      * @return mixed
      */

@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Henrik\DI\Utils;
 
-use henrik\container\exceptions\IdAlreadyExistsException;
-use henrik\container\exceptions\ServiceNotFoundException;
 use Henrik\DI\Exceptions\ClassNotFoundException;
 use Henrik\DI\Exceptions\MethodNotFoundException;
-use Henrik\DI\Exceptions\UnknownScopeException;
 use ReflectionException;
 use ReflectionMethod;
 
@@ -25,10 +22,7 @@ class MethodInvoker
      * @param array<int|string, mixed> $args
      *
      * @throws ReflectionException
-     * @throws ServiceNotFoundException
-     * @throws IdAlreadyExistsException
-     * @throws \Henrik\DI\Exceptions\ServiceNotFoundException
-     * @throws UnknownScopeException|ClassNotFoundException
+     * @throws ClassNotFoundException
      * @throws MethodNotFoundException
      *
      * @return mixed|null
