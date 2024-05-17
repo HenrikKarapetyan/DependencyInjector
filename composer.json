@@ -8,7 +8,8 @@
     "php": ">=8.2",
     "henrik/container": "2.*",
     "henrik/component": "2.*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "henrik/contracts": "dev-main"
   },
   "autoload": {
     "psr-4": {
