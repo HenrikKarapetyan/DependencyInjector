@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Henrik\DI;
 
-use henrik\container\exceptions\IdAlreadyExistsException;
-use henrik\container\exceptions\UndefinedModeException;
+use Henrik\Container\Exceptions\KeyAlreadyExistsException;
+use Henrik\Container\Exceptions\KeyNotFoundException;
+use Henrik\Container\Exceptions\UndefinedModeException;
 use Henrik\DI\Exceptions\ClassNotFoundException;
 use Henrik\DI\Exceptions\ServiceConfigurationException;
 use Henrik\DI\Exceptions\ServiceNotFoundException;
@@ -61,10 +62,10 @@ class DependencyInjector implements DependencyInjectorInterface
 
     /**
      * @throws ClassNotFoundException
-     * @throws IdAlreadyExistsException
+     * @throws KeyAlreadyExistsException
+     * @throws KeyNotFoundException
      * @throws ServiceNotFoundException
      * @throws UnknownScopeException
-     * @throws \henrik\container\exceptions\ServiceNotFoundException
      *
      * @return self
      */
@@ -83,10 +84,10 @@ class DependencyInjector implements DependencyInjectorInterface
     /**
      * @param array<string, array<string, int|string>>|string $services
      *
-     * @throws UnknownScopeException
-     * @throws IdAlreadyExistsException
+     * @throws KeyAlreadyExistsException
      * @throws UndefinedModeException
      * @throws UnknownConfigurationException
+     * @throws UnknownScopeException
      */
     public function load(array|string $services): void
     {
@@ -102,13 +103,13 @@ class DependencyInjector implements DependencyInjectorInterface
     /**
      * @param DefinitionInterface $definition
      *
-     * @throws IdAlreadyExistsException
+     * @throws ClassNotFoundException
      * @throws ReflectionException
      * @throws ServiceConfigurationException
      * @throws ServiceNotFoundException
      * @throws UnknownScopeException
-     * @throws \henrik\container\exceptions\ServiceNotFoundException
-     * @throws ClassNotFoundException
+     * @throws KeyAlreadyExistsException
+     * @throws KeyNotFoundException
      *
      * @return object
      */
@@ -140,8 +141,8 @@ class DependencyInjector implements DependencyInjectorInterface
      * @param object               $obj
      * @param array<string, mixed> $params
      *
+     * @throws KeyNotFoundException
      * @throws ServiceConfigurationException
-     * @throws ServiceNotFoundException|\henrik\container\exceptions\ServiceNotFoundException
      *
      * @return object
      */
@@ -171,10 +172,11 @@ class DependencyInjector implements DependencyInjectorInterface
      * @param string $id
      * @param bool   $throwError
      *
-     * @throws ServiceNotFoundException|IdAlreadyExistsException
-     * @throws \henrik\container\exceptions\ServiceNotFoundException|UnknownScopeException
-     * @throws ClassNotFoundException*
-     * @throws IdAlreadyExistsException
+     * @throws KeyNotFoundException
+     * @throws ServiceNotFoundException
+     * @throws UnknownScopeException
+     * @throws ClassNotFoundException
+     * @throws KeyAlreadyExistsException
      *
      * @return mixed
      */
@@ -234,12 +236,11 @@ class DependencyInjector implements DependencyInjectorInterface
      * @param ReflectionMethod        $method
      * @param array<string, mixed>    $args
      *
-     * @throws ClassNotFoundException
-     * @throws IdAlreadyExistsException
-     * @throws ServiceNotFoundException
-     * @throws UnknownScopeException
+     * @throws KeyNotFoundException
      * @throws ReflectionException
-     * @throws \henrik\container\exceptions\ServiceNotFoundException
+     * @throws ServiceNotFoundException
+     * @throws UnknownScopeException|KeyAlreadyExistsException
+     * @throws ClassNotFoundException
      *
      * @return object
      */
@@ -288,8 +289,8 @@ class DependencyInjector implements DependencyInjectorInterface
      * @param string              $scope
      * @param DefinitionInterface $definition
      *
+     * @throws KeyAlreadyExistsException
      * @throws UnknownScopeException
-     * @throws IdAlreadyExistsException
      */
     private function add(string $scope, DefinitionInterface $definition): void
     {
@@ -309,10 +310,10 @@ class DependencyInjector implements DependencyInjectorInterface
     /**
      * @param ReflectionParameter $arg
      *
-     * @throws ClassNotFoundException
+     * @throws KeyNotFoundException
      * @throws ServiceNotFoundException
-     * @throws UnknownScopeException
-     * @throws \henrik\container\exceptions\ServiceNotFoundException|IdAlreadyExistsException
+     * @throws UnknownScopeException|KeyAlreadyExistsException
+     * @throws ClassNotFoundException
      *
      * @return mixed
      */

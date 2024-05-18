@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Henrik\DI;
 
-use henrik\container\Container;
-use henrik\container\ContainerModes;
-use henrik\container\exceptions\IdAlreadyExistsException;
-use henrik\container\exceptions\ServiceNotFoundException;
-use henrik\container\exceptions\UndefinedModeException;
+use Henrik\Container\Container;
+use Henrik\Container\ContainerModes;
+use Henrik\Container\Exceptions\KeyAlreadyExistsException;
+use Henrik\Container\Exceptions\KeyNotFoundException;
+use Henrik\Container\Exceptions\UndefinedModeException;
 use ReflectionClass;
 
 class RCContainer extends Container
@@ -26,8 +26,7 @@ class RCContainer extends Container
     /**
      * @param string $klass
      *
-     * @throws IdAlreadyExistsException
-     * @throws ServiceNotFoundException
+     * @throws KeyAlreadyExistsException|KeyNotFoundException
      *
      * @return mixed
      */

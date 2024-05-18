@@ -2,7 +2,7 @@
 
 namespace Henrik\DI;
 
-use henrik\container\exceptions\UndefinedModeException;
+use Henrik\Container\Exceptions\UndefinedModeException;
 use Henrik\DI\Exceptions\UnknownConfigurationException;
 use Henrik\DI\Parsers\ArrayConfigParser;
 use Henrik\DI\Parsers\ConfigParserInterface;

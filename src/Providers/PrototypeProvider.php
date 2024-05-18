@@ -10,15 +10,14 @@ declare(strict_types=1);
 namespace Henrik\DI\Providers;
 
 use Exception;
-use henrik\container\exceptions\ServiceNotFoundException;
 use Henrik\DI\Exceptions\ServiceConfigurationException;
+use Henrik\DI\Exceptions\ServiceNotFoundException;
 
 class PrototypeProvider extends ObjectProvider
 {
     /**
-     * @throws ServiceNotFoundException
      * @throws ServiceConfigurationException
-     * @throws \Henrik\DI\Exceptions\ServiceNotFoundException
+     * @throws ServiceNotFoundException
      * @throws Exception
      *
      * @return object

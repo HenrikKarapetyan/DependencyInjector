@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Henrik\DI;
 
-use henrik\container\Container;
-use henrik\container\ContainerModes;
-use henrik\container\exceptions\IdAlreadyExistsException;
-use henrik\container\exceptions\ServiceNotFoundException;
-use henrik\container\exceptions\UndefinedModeException;
+use Henrik\Container\Container;
+use Henrik\Container\ContainerModes;
+use Henrik\Container\Exceptions\KeyAlreadyExistsException;
+use Henrik\Container\Exceptions\KeyNotFoundException;
+use Henrik\Container\Exceptions\UndefinedModeException;
 use Henrik\DI\Providers\ProviderInterface;
 
 class ServicesContainer extends Container
@@ -27,7 +27,7 @@ class ServicesContainer extends Container
      * @param string            $id
      * @param ProviderInterface $provider
      *
-     * @throws IdAlreadyExistsException
+     * @throws KeyAlreadyExistsException
      */
     public function add(string $id, ProviderInterface $provider): void
     {
@@ -37,7 +37,7 @@ class ServicesContainer extends Container
     /**
      * @param string $id
      *
-     * @throws ServiceNotFoundException
+     * @throws KeyNotFoundException
      *
      * @return mixed
      */

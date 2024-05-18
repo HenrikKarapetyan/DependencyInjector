@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Henrik\DI\Providers;
 
 use Exception;
-use henrik\container\exceptions\ServiceNotFoundException;
 use Henrik\DI\DependencyInjector;
 use Henrik\DI\Exceptions\InvalidAliasException;
 
@@ -18,7 +17,6 @@ class AliasProvider extends ServiceProvider
 {
     /**
      * @throws Exception
-     * @throws ServiceNotFoundException
      *
      * @return mixed
      */

@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Henrik\DI\Parsers;
 
-use henrik\container\exceptions\IdAlreadyExistsException;
-use henrik\container\exceptions\UndefinedModeException;
+use Henrik\Container\Exceptions\KeyAlreadyExistsException;
+use Henrik\Container\Exceptions\UndefinedModeException;
 use Henrik\DI\Definition;
 use Henrik\DI\DefinitionInterface;
 use Henrik\DI\Exceptions\InvalidConfigurationException;
@@ -32,7 +32,6 @@ class ArrayConfigParser extends AbstractConfigParser
     }
 
     /**
-     * @throws IdAlreadyExistsException
      * @throws InvalidConfigurationException
      */
     public function parse(): void
@@ -186,8 +185,7 @@ class ArrayConfigParser extends AbstractConfigParser
      * @param string                    $scope
      * @param array<string, int|string> $serviceItems
      *
-     * @throws InvalidConfigurationException
-     * @throws IdAlreadyExistsException
+     * @throws InvalidConfigurationException|KeyAlreadyExistsException
      *
      * @return void
      */

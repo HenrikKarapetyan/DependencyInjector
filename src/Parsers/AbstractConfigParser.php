@@ -2,9 +2,9 @@
 
 namespace Henrik\DI\Parsers;
 
-use henrik\container\Container;
-use henrik\container\ContainerModes;
-use henrik\container\exceptions\UndefinedModeException;
+use Henrik\Container\Container;
+use Henrik\Container\ContainerModes;
+use Henrik\Container\Exceptions\UndefinedModeException;
 
 abstract class AbstractConfigParser extends Container implements ConfigParserInterface
 {

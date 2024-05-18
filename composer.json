@@ -6,9 +6,9 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=8.2",
-    "henrik/container": "2.*",
-    "henrik/component": "2.*",
     "ext-json": "*",
+    "henrik/container": "dev-master",
+    "henrik/component": "dev-master",
     "henrik/contracts": "dev-main"
   },
   "autoload": {

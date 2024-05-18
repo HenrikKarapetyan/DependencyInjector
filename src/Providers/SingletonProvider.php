@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Henrik\DI\Providers;
 
 use Exception;
-use henrik\container\exceptions\ServiceNotFoundException;
 use Henrik\DI\Exceptions\ServiceConfigurationException;
 
 /**
@@ -20,9 +19,7 @@ class SingletonProvider extends ObjectProvider
 {
     /**
      * @throws ServiceConfigurationException
-     * @throws \Henrik\DI\Exceptions\ServiceNotFoundException
      * @throws Exception
-     * @throws ServiceNotFoundException
      *
      * @return object
      */
