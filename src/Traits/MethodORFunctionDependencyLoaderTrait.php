@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Henrik\DI\Utils;
+namespace Henrik\DI\Traits;
 
+use Henrik\Contracts\DependencyInjectorInterface;
 use Henrik\DI\Exceptions\ClassNotFoundException;
-use Hk\Contracts\DependencyInjectorInterface;
 use ReflectionNamedType;
 use ReflectionParameter;
 

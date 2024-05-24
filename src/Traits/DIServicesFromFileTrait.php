@@ -1,14 +1,38 @@
 <?php
 
-namespace Henrik\DI;
+declare(strict_types=1);
 
+namespace Henrik\DI\Traits;
+
+use Henrik\Container\Exceptions\KeyAlreadyExistsException;
 use Henrik\Container\Exceptions\UndefinedModeException;
+use Henrik\Contracts\DefinitionInterface;
 use Henrik\DI\Exceptions\UnknownConfigurationException;
+use Henrik\DI\Exceptions\UnknownScopeException;
 use Henrik\DI\Parsers\ArrayConfigParser;
 use Henrik\DI\Parsers\ConfigParserInterface;
 
-trait ConfigurationLoaderTrait
+trait DIServicesFromFileTrait
 {
+    /**
+     * @param array<string, array<string, int|string>>|string $services
+     *
+     * @throws KeyAlreadyExistsException
+     * @throws UndefinedModeException
+     * @throws UnknownConfigurationException
+     * @throws UnknownScopeException
+     */
+    public function load(array|string $services): void
+    {
+        $data = $this->guessExtensionOrDataType($services);
+
+        foreach ($data as $scope => $definitionArray) {
+            foreach ($definitionArray as $definition) {
+                $this->add($scope, $definition);
+            }
+        }
+    }
+
     /**
      * @param string|array<string, array<string, int|string>> $services
      *
@@ -17,7 +41,7 @@ trait ConfigurationLoaderTrait
      *
      * @return ConfigParserInterface
      */
-    public function guessDataType(array|string $services): ConfigParserInterface
+    private function guessDataType(array|string $services): ConfigParserInterface
     {
         if (is_array($services)) {
             return new ArrayConfigParser($services);

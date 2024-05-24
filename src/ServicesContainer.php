@@ -9,6 +9,7 @@ use Henrik\Container\ContainerModes;
 use Henrik\Container\Exceptions\KeyAlreadyExistsException;
 use Henrik\Container\Exceptions\KeyNotFoundException;
 use Henrik\Container\Exceptions\UndefinedModeException;
+use Henrik\Contracts\DefinitionInterface;
 use Henrik\DI\Providers\ProviderInterface;
 
 class ServicesContainer extends Container

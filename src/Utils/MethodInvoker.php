@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Henrik\DI\Utils;
 
+use Henrik\Contracts\MethodInvokerInterface;
 use Henrik\DI\Exceptions\ClassNotFoundException;
 use Henrik\DI\Exceptions\MethodNotFoundException;
-use Hk\Contracts\MethodInvokerInterface;
+use Henrik\DI\Traits\MethodORFunctionDependencyLoaderTrait;
 use ReflectionException;
 use ReflectionMethod;
 

@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Henrik\DI\Utils;
 
 use Closure;
+use Henrik\Contracts\FunctionInvokerInterface;
 use Henrik\DI\Exceptions\ClassNotFoundException;
-use Hk\Contracts\FunctionInvokerInterface;
+use Henrik\DI\Traits\MethodORFunctionDependencyLoaderTrait;
 use ReflectionException;
 use ReflectionFunction;
 

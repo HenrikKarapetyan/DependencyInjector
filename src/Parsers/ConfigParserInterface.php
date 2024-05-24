@@ -2,7 +2,7 @@
 
 namespace Henrik\DI\Parsers;
 
-use Henrik\DI\DefinitionInterface;
+use Henrik\Contracts\DefinitionInterface;
 
 interface ConfigParserInterface
 {

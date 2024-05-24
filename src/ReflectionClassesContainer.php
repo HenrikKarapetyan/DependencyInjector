@@ -11,7 +11,7 @@ use Henrik\Container\Exceptions\KeyNotFoundException;
 use Henrik\Container\Exceptions\UndefinedModeException;
 use ReflectionClass;
 
-class RCContainer extends Container
+class ReflectionClassesContainer extends Container
 {
     /**
      * ReflectionsContainer constructor.

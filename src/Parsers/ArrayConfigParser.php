@@ -11,9 +11,11 @@ namespace Henrik\DI\Parsers;
 
 use Henrik\Container\Exceptions\KeyAlreadyExistsException;
 use Henrik\Container\Exceptions\UndefinedModeException;
-use Henrik\DI\Definition;
-use Henrik\DI\DefinitionInterface;
+use Henrik\Contracts\Enums\ServiceScope;
 use Henrik\DI\Exceptions\InvalidConfigurationException;
+use Henrik\DI\Exceptions\UnknownScopeException;
+use Henrik\DI\Parsers\Scenarios\ClassParserScenario;
+use Henrik\DI\Parsers\Scenarios\KeyValueParserScenario;
 
 /**
  * Class ArrayConfigParser.
@@ -33,6 +35,8 @@ class ArrayConfigParser extends AbstractConfigParser
 
     /**
      * @throws InvalidConfigurationException
+     * @throws KeyAlreadyExistsException
+     * @throws UnknownScopeException
      */
     public function parse(): void
     {
@@ -44,157 +48,22 @@ class ArrayConfigParser extends AbstractConfigParser
     }
 
     /**
-     * @param array<int|string, string|array<array<int|string, mixed>>|string|null> $definitionArrayOrFile
-     *
-     * @throws InvalidConfigurationException
-     *
-     * @return DefinitionInterface
-     */
-    public function parseEachItem(array $definitionArrayOrFile): DefinitionInterface
-    {
-        $definition                = self::parseAsAssocArray($definitionArrayOrFile);
-        $definition ?: $definition = self::parseWithoutId($definitionArrayOrFile);
-        $definition ?: $definition = self::parseAsAliasOrParams($definitionArrayOrFile);
-
-        return $definition;
-    }
-
-    /**
-     * [
-     *      'id' =>'di',
-     *      'class' => 'Henrik\DI\DI',
-     *      'params' => []
-     * ].
-     *
-     * @param array<int|string, string|array<array<int|string, mixed>>|string|null> $definitionArray
-     *
-     * @throws InvalidConfigurationException
-     *
-     * @return ?DefinitionInterface
-     */
-    private function parseAsAssocArray(array $definitionArray): ?DefinitionInterface
-    {
-        if (isset($definitionArray['id'], $definitionArray['class'])) {
-
-            if (is_string($definitionArray['id']) && is_string($definitionArray['class'])) {
-
-                $definition = new Definition();
-
-                $definition->setId($definitionArray['id']);
-                $definition->setClass($definitionArray['class']);
-
-                if (isset($definitionArray['args']) && is_array($definitionArray['args'])) {
-                    $definition->setArgs($this->parseParams($definitionArray['args']));
-                }
-
-                if (isset($definitionArray['params'])) {
-
-                    $definition->setParams($this->parseParams($definitionArray['params']));
-                }
-
-                return $definition;
-            }
-
-            throw new InvalidConfigurationException(
-                'Invalid configuration! The keys `id` and `class` are required and must be strings.'
-            );
-        }
-
-        return null;
-    }
-
-    /**
-     * @param array<array<int|string, mixed>>|string|null $params
-     *
-     * @throws InvalidConfigurationException
-     *
-     * @return array<string, mixed>
-     */
-    private function parseParams(null|array|string $params): array
-    {
-
-        $parsedParams = [];
-        if (is_array($params)) {
-            foreach ($params as $key => $value) {
-                if (!is_string($key)) {
-                    throw new InvalidConfigurationException('The `params` option must be assoc array and `key` must be string');
-                }
-                $parsedParams[$key] = $value;
-            }
-        }
-
-        return $parsedParams;
-    }
-
-    /**
-     * [
-     *      Henrik\DI\Di,['dd'=>'dd']
-     * ].
-     *
-     * @param array<int|string, string|array<array<int|string, mixed>>|string|null> $definitionArray
-     *
-     * @throws InvalidConfigurationException
-     *
-     * @return ?DefinitionInterface
-     */
-    private function parseWithoutId(array $definitionArray): ?DefinitionInterface
-    {
-        if (isset($definitionArray[0])) {
-            if (!is_string($definitionArray[0])) {
-                throw new InvalidConfigurationException('The array first value must be string');
-            }
-            $definition = new Definition($definitionArray[0], $definitionArray[0]);
-            $definition->setId($definitionArray[0]);
-            $definition->setClass($definitionArray[0]);
-            if (isset($definitionArray[1]) && is_array($definitionArray[1])) {
-                $definition->setParams($this->parseParams($definitionArray[1]));
-            }
-
-            return $definition;
-        }
-
-        return null;
-    }
-
-    /**
-     * @param array<int|string, string|array<array<int|string, mixed>>|string|null> $definitionArray
-     *
-     * @throws InvalidConfigurationException
-     *
-     * @return DefinitionInterface
-     */
-    private function parseAsAliasOrParams(array $definitionArray): DefinitionInterface
-    {
-        $definition = new Definition();
-        foreach ($definitionArray as $key => $value) {
-            if (is_string($key)) {
-                $definition->setId($key);
-                /** @var string $value */
-                $definition->setValue($value);
-            }
-            if (is_array($value)) {
-                /** @var array<array<int|string, mixed>>|string|null $value */
-                $definition->setParams($this->parseParams($value));
-            }
-        }
-
-        return $definition;
-    }
-
-    /**
      * @param string                    $scope
      * @param array<string, int|string> $serviceItems
      *
-     * @throws InvalidConfigurationException|KeyAlreadyExistsException
+     * @throws InvalidConfigurationException|KeyAlreadyExistsException|UnknownScopeException
      *
      * @return void
      */
     private function parseEachScopeData(string $scope, array $serviceItems): void
     {
-        foreach ($serviceItems as $item) {
-            /** @var array<int|string, array<array<int|string, mixed>>|string|null> $item */
-            $definition = $this->parseEachItem($item);
+        foreach ($serviceItems as $item => $value) {
 
+            $definition = match ($scope) {
+                ServiceScope::FACTORY->value, ServiceScope::PROTOTYPE->value, ServiceScope::SINGLETON->value => ClassParserScenario::parse($value),
+                ServiceScope::ALIAS->value, ServiceScope::PARAM->value => KeyValueParserScenario::parse($item, $value),
+                default => throw new UnknownScopeException(sprintf("Unknown scope '%s'", $scope)),
+            };
             $this->set($scope, $definition);
         }
     }

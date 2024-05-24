@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Henrik\DI\Providers;
 
-use Henrik\DI\DefinitionInterface;
+use Henrik\Contracts\DefinitionInterface;
 use Henrik\DI\DependencyInjector;
 
 /**
