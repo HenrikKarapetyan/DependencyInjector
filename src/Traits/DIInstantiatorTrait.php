@@ -136,19 +136,14 @@ trait DIInstantiatorTrait
 
                         continue;
                     }
-                    $reArgs[$arg->getName()] = $args[$arg->getName()];
+
+                    $reArgs[$arg->getName()] = $this->getMarkedServiceValue($args, $arg);
 
                     continue;
                 }
 
                 if (isset($args[$arg->getName()])) {
-                    if (is_string($args[$arg->getName()]) && str_starts_with($args[$arg->getName()], '#')) {
-                        $serviceId               = trim($args[$arg->getName()], '#');
-                        $reArgs[$arg->getName()] = $this->get($serviceId);
-
-                        continue;
-                    }
-                    $reArgs[$arg->getName()] = $args[$arg->getName()];
+                    $reArgs[$arg->getName()] = $this->getMarkedServiceValue($args, $arg);
 
                     continue;
                 }
@@ -161,6 +156,30 @@ trait DIInstantiatorTrait
         }
 
         return $reflectionClass->newInstanceArgs($reArgs);
+    }
+
+    /**
+     * @param array<string, mixed> $args
+     * @param ReflectionParameter  $arg
+     *
+     * @throws ClassNotFoundException
+     * @throws KeyAlreadyExistsException
+     * @throws KeyNotFoundException
+     * @throws ServiceNotFoundException
+     * @throws UnknownScopeException
+     *
+     * @return mixed|string
+     */
+    private function getMarkedServiceValue(array $args, ReflectionParameter $arg): mixed
+    {
+        if (is_string($args[$arg->getName()]) && str_starts_with($args[$arg->getName()], MarkersInterface::AS_SERVICE_PARAM_MARKER)) {
+            $serviceId = trim($args[$arg->getName()], MarkersInterface::AS_SERVICE_PARAM_MARKER);
+
+            return $this->get($serviceId);
+
+        }
+
+        return $args[$arg->getName()];
     }
 
     /**
