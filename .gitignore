@@ -7,3 +7,5 @@ phpmd-report.html
 
 examples
 src/SampleClasses
+
+public
