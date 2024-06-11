@@ -8,6 +8,7 @@ use Henrik\Container\Exceptions\KeyAlreadyExistsException;
 use Henrik\Container\Exceptions\KeyNotFoundException;
 use Henrik\Contracts\DefinitionInterface;
 use Henrik\Contracts\Enums\InjectorModes;
+use Henrik\Contracts\Utils\MarkersInterface;
 use Henrik\DI\Exceptions\ClassNotFoundException;
 use Henrik\DI\Exceptions\ServiceConfigurationException;
 use Henrik\DI\Exceptions\ServiceNotFoundException;
@@ -98,8 +99,8 @@ trait DIInstantiatorTrait
                 );
             }
 
-            if (!is_array($attrValue) && str_starts_with($attrValue, '#')) {
-                $serviceId = trim($attrValue, '#');
+            if (!is_array($attrValue) && str_starts_with($attrValue, MarkersInterface::AS_SERVICE_PARAM_MARKER)) {
+                $serviceId = trim($attrValue, MarkersInterface::AS_SERVICE_PARAM_MARKER);
                 $attrValue = $this->serviceContainer->get($serviceId);
             }
             $obj->{$method}($attrValue);
