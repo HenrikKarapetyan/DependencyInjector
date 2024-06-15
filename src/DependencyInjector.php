@@ -78,9 +78,8 @@ class DependencyInjector implements DependencyInjectorInterface
     public function get(string $id, bool $throwError = true): mixed
     {
         $dataFromContainer = $this->serviceContainer->get($id);
-        if ($this->mode == InjectorModes::AUTO_REGISTER) {
+        if ($this->getMode() == InjectorModes::AUTO_REGISTER) {
             if ($dataFromContainer === null) {
-
                 if (!class_exists($id)) {
                     throw new ClassNotFoundException($id);
                 }
@@ -124,7 +123,7 @@ class DependencyInjector implements DependencyInjectorInterface
 
         $definitionId = (string) $definition->getId();
 
-        switch ($this->serviceRegisterTypes) {
+        switch ($this->getServiceRegisterTypes()) {
             case ServiceRegisterTypes::IGNORE_IF_EXISTS:
                 if (!$this->serviceContainer->has($definitionId)) {
                     $this->serviceContainer->set($definitionId, $providerInst);

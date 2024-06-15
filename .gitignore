@@ -10,3 +10,4 @@ src/SampleClasses
 
 public
 .phpunit.cache
+coverage

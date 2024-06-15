@@ -9,7 +9,9 @@
     "ext-json": "*",
     "henrik/container": "dev-master",
     "henrik/component": "dev-master",
-    "henrik/contracts": "dev-main"
+    "henrik/contracts": "dev-main",
+    "fzaninotto/faker": "^1.9@dev",
+    "henrik/filesystem": "dev-main"
   },
   "autoload": {
     "psr-4": {
@@ -25,7 +27,8 @@
     "phpmd/phpmd": "^2.15",
     "friendsofphp/php-cs-fixer": "v3.57.2",
     "phpstan/phpstan": "2.0.x-dev",
-    "phpunit/phpunit": "^11.2@dev"
+    "phpunit/phpunit": "^11.2@dev",
+    "phpunit/php-code-coverage": "^11.0@dev"
   },
   "scripts": {
     "phpstan": [
@@ -43,6 +46,10 @@
     "phpmd-html": [
       "Composer\\Config::disableProcessTimeout",
       "./vendor/bin/phpmd ./src html ./phpmd.xml > phpmd-report.html"
+    ],
+    "test": [
+      "Composer\\Config::disableProcessTimeout",
+      "./vendor/bin/phpunit --coverage-html=coverage"
     ]
   }
 }

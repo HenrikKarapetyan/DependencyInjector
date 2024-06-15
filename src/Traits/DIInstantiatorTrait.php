@@ -12,6 +12,7 @@ use Henrik\Contracts\Utils\MarkersInterface;
 use Henrik\DI\Exceptions\ClassNotFoundException;
 use Henrik\DI\Exceptions\ServiceConfigurationException;
 use Henrik\DI\Exceptions\ServiceNotFoundException;
+use Henrik\DI\Exceptions\ServiceParameterNotFoundException;
 use Henrik\DI\Exceptions\UnknownScopeException;
 use Henrik\DI\ReflectionClassesContainer;
 use Henrik\DI\ServicesContainer;
@@ -94,8 +95,8 @@ trait DIInstantiatorTrait
             $method = 'set' . ucfirst($attrName);
 
             if (!method_exists($obj, $method)) {
-                throw new ServiceConfigurationException(
-                    sprintf('Property %s not found in object %s', $attrName, json_encode($obj))
+                throw new ServiceParameterNotFoundException(
+                    sprintf('The object `%s` property %s not found ', json_encode($obj), $attrName)
                 );
             }
 

@@ -2,8 +2,10 @@
 
 namespace Henrik\DI\Traits;
 
+use Henrik\Container\Exceptions\KeyAlreadyExistsException;
+use Henrik\DI\Exceptions\UnknownScopeException;
 use Henrik\DI\Utils\AttributesParser;
-use Henrik\DI\Utils\ClassCollector;
+use Henrik\Filesystem\Filesystem;
 
 trait DIServicesFromClassesPathTrait
 {
@@ -12,6 +14,9 @@ trait DIServicesFromClassesPathTrait
      * @param string             $namespace
      * @param array<string>|null $excludedPaths
      *
+     * @throws KeyAlreadyExistsException
+     * @throws UnknownScopeException
+     *
      * @return void
      */
     public function loadFromPath(
@@ -19,7 +24,7 @@ trait DIServicesFromClassesPathTrait
         string $namespace,
         ?array $excludedPaths = []
     ): void {
-        $loadedClasses = ClassCollector::collect(path: $path, namespace: $namespace, excludedPaths: $excludedPaths);
+        $loadedClasses = Filesystem::getPhpClassesFromDirectory(directory: $path, namespace: $namespace, excludedPaths: $excludedPaths);
         AttributesParser::parse($this, $loadedClasses);
 
     }

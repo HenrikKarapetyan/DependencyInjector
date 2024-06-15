@@ -6,9 +6,9 @@ use Henrik\Container\Exceptions\KeyAlreadyExistsException;
 use Henrik\DI\Attributes\AsService;
 use Henrik\DI\Definition;
 use Henrik\DI\DependencyInjector;
+use Henrik\DI\Exceptions\AbstractClassAsDefinitionException;
 use Henrik\DI\Exceptions\UnknownScopeException;
 use ReflectionClass;
-use RuntimeException;
 
 class AttributesParser
 {
@@ -17,7 +17,7 @@ class AttributesParser
      * @param array<string>      $loadedClasses
      *
      * @throws KeyAlreadyExistsException
-     * @throws UnknownScopeException
+     * @throws UnknownScopeException|AbstractClassAsDefinitionException
      */
     public static function parse(DependencyInjector $dependencyInjector, array $loadedClasses): void
     {
@@ -29,8 +29,8 @@ class AttributesParser
                 $handlerClass = $reflectionClass->getName();
 
                 if ($reflectionClass->isAbstract()) {
-                    throw new RuntimeException(
-                        sprintf('The class `%s` cannot be abstract', $handlerClass)
+                    throw new AbstractClassAsDefinitionException(
+                        sprintf('The definition class `%s` cannot be abstract', $handlerClass)
                     );
                 }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Henrik\DI\Test\SimpleClasses;
+namespace Henrik\DI\Test\SimpleServices\SimpleClasses;
 
 class SimpleDefinition
 {
