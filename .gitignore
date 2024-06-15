@@ -9,3 +9,4 @@ examples
 src/SampleClasses
 
 public
+.phpunit.cache
