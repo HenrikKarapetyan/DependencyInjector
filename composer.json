@@ -16,10 +16,16 @@
       "Henrik\\DI\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Henrik\\DI\\Test\\": "tests/"
+    }
+  },
   "require-dev": {
     "phpmd/phpmd": "^2.15",
     "friendsofphp/php-cs-fixer": "v3.57.2",
-    "phpstan/phpstan": "2.0.x-dev"
+    "phpstan/phpstan": "2.0.x-dev",
+    "phpunit/phpunit": "^11.2@dev"
   },
   "scripts": {
     "phpstan": [

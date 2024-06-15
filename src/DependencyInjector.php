@@ -146,4 +146,9 @@ class DependencyInjector implements DependencyInjectorInterface
     {
         return $this->serviceContainer->has($getName);
     }
+
+    public function removeAllServices(): void
+    {
+        $this->serviceContainer->deleteAll();
+    }
 }
