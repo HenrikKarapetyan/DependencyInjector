@@ -8,10 +8,10 @@ class ClassByMultipleDependencies
 
     /**
      * @param SimpleUserService $simpleUserService
-     * @param SimpleDefinition $simpleDefinition
-     * @param string $name
-     * @param int $age
-     * @param string[] $paramByDefaultValue
+     * @param SimpleDefinition  $simpleDefinition
+     * @param string            $name
+     * @param int               $age
+     * @param string[]          $paramByDefaultValue
      */
     public function __construct(
         private SimpleUserService $simpleUserService,
@@ -73,6 +73,7 @@ class ClassByMultipleDependencies
     public function setSimpleUserService(SimpleUserService $simpleUserService): self
     {
         $this->simpleUserService = $simpleUserService;
+
         return $this;
     }
 
@@ -84,6 +85,7 @@ class ClassByMultipleDependencies
     public function setAge(int $age): self
     {
         $this->age = $age;
+
         return $this;
     }
 
@@ -95,7 +97,7 @@ class ClassByMultipleDependencies
     public function setSimpleDefinition(SimpleDefinition $simpleDefinition): self
     {
         $this->simpleDefinition = $simpleDefinition;
+
         return $this;
     }
-
 }
