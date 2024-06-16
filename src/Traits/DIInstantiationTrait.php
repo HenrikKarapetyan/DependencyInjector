@@ -112,54 +112,68 @@ trait DIInstantiationTrait
     }
 
     /**
+     * @param ReflectionParameter  $methodArgument
+     * @param array<string, mixed> $arguments
+     *
+     * @throws KeyAlreadyExistsException
+     * @throws KeyNotFoundException
+     * @throws ServiceNotFoundException
+     * @throws UnknownScopeException
+     * @throws UnknownTypeForParameterException
+     * @throws ClassNotFoundException
+     *
+     * @return mixed|string
+     */
+    public function getMethodArgumentsAndValues(ReflectionParameter $methodArgument, array $arguments)
+    {
+        if ($methodArgument->isDefaultValueAvailable()) {
+            if (!isset($arguments[$methodArgument->getName()])) {
+                return $methodArgument->getDefaultValue();
+            }
+
+            return $this->getMarkedServiceValue($arguments, $methodArgument);
+        }
+
+        if (isset($arguments[$methodArgument->getName()])) {
+            return $this->getMarkedServiceValue($arguments, $methodArgument);
+        }
+
+        return $this->getValueFromContainer($methodArgument);
+
+    }
+
+    /**
      * @param ReflectionClass<object> $reflectionClass
      * @param ReflectionMethod        $method
-     * @param array<string, mixed>    $args
+     * @param array<string, mixed>    $arguments
      *
      * @throws KeyNotFoundException
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws UnknownScopeException|KeyAlreadyExistsException
      * @throws ClassNotFoundException
+     * @throws UnknownTypeForParameterException
      *
      * @return object
      */
-    private function loadMethodDependencies(ReflectionClass $reflectionClass, ReflectionMethod $method, array $args): object
+    private function loadMethodDependencies(ReflectionClass $reflectionClass, ReflectionMethod $method, array $arguments): object
     {
         $constructorArguments = $method->getParameters();
-        $reArgs               = [];
+        $methodArgs           = [];
         if (count($constructorArguments) > 0) {
 
-            foreach ($constructorArguments as $arg) {
+            foreach ($constructorArguments as $methodArgument) {
 
-                if ($arg->isDefaultValueAvailable()) {
-                    if (!isset($args[$arg->getName()])) {
-                        $reArgs[$arg->getName()] = $arg->getDefaultValue();
-
-                        continue;
-                    }
-
-                    $reArgs[$arg->getName()] = $this->getMarkedServiceValue($args, $arg);
-
-                    continue;
-                }
-
-                if (isset($args[$arg->getName()])) {
-                    $reArgs[$arg->getName()] = $this->getMarkedServiceValue($args, $arg);
-
-                    continue;
-                }
-
-                $reArgs[$arg->getName()] = $this->getValueFromContainer($arg);
+                $methodArgs[$methodArgument->getName()] = $this->getMethodArgumentsAndValues($methodArgument, $arguments);
 
             }
         }
 
-        return $reflectionClass->newInstanceArgs($reArgs);
+        return $reflectionClass->newInstanceArgs($methodArgs);
     }
 
     /**
-     * @param array<string, mixed> $args
+     * @param array<string, mixed> $arguments
      * @param ReflectionParameter  $arg
      *
      * @throws ClassNotFoundException
@@ -170,16 +184,19 @@ trait DIInstantiationTrait
      *
      * @return mixed|string
      */
-    private function getMarkedServiceValue(array $args, ReflectionParameter $arg): mixed
+    private function getMarkedServiceValue(array $arguments, ReflectionParameter $arg): mixed
     {
-        if (is_string($args[$arg->getName()]) && str_starts_with($args[$arg->getName()], MarkersInterface::AS_SERVICE_PARAM_MARKER)) {
-            $serviceId = trim($args[$arg->getName()], MarkersInterface::AS_SERVICE_PARAM_MARKER);
+        if (
+            is_string($arguments[$arg->getName()])
+            && str_starts_with($arguments[$arg->getName()], MarkersInterface::AS_SERVICE_PARAM_MARKER)
+        ) {
+            $serviceId = trim($arguments[$arg->getName()], MarkersInterface::AS_SERVICE_PARAM_MARKER);
 
             return $this->get($serviceId);
 
         }
 
-        return $args[$arg->getName()];
+        return $arguments[$arg->getName()];
     }
 
     /**

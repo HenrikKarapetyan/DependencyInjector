@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Henrik\DI\Traits;
 
 use Henrik\Contracts\DependencyInjectorInterface;
-use Henrik\DI\Exceptions\ClassNotFoundException;
 use Henrik\DI\Exceptions\UnknownTypeForParameterException;
 use ReflectionNamedType;
 use ReflectionParameter;

@@ -3,6 +3,7 @@
 namespace Henrik\DI\Traits;
 
 use Henrik\Container\Exceptions\KeyAlreadyExistsException;
+use Henrik\DI\Exceptions\AbstractClassAsDefinitionException;
 use Henrik\DI\Exceptions\UnknownScopeException;
 use Henrik\DI\Utils\AttributesParser;
 use Henrik\Filesystem\Filesystem;
@@ -14,8 +15,8 @@ trait DIServicesFromClassesPathTrait
      * @param string             $namespace
      * @param array<string>|null $excludedPaths
      *
+     * @throws UnknownScopeException|AbstractClassAsDefinitionException
      * @throws KeyAlreadyExistsException
-     * @throws UnknownScopeException
      *
      * @return void
      */

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Henrik\DI\Utils;
 
 use Henrik\Contracts\MethodInvokerInterface;
-use Henrik\DI\Exceptions\ClassNotFoundException;
 use Henrik\DI\Exceptions\MethodNotFoundException;
+use Henrik\DI\Exceptions\UnknownTypeForParameterException;
 use Henrik\DI\Traits\MethodORFunctionDependencyLoaderTrait;
 use ReflectionException;
 use ReflectionMethod;
@@ -23,9 +23,8 @@ class MethodInvoker implements MethodInvokerInterface
      * @param string                   $method
      * @param array<int|string, mixed> $args
      *
+     * @throws MethodNotFoundException|UnknownTypeForParameterException
      * @throws ReflectionException
-     * @throws ClassNotFoundException
-     * @throws MethodNotFoundException
      *
      * @return mixed|null
      */

@@ -17,17 +17,18 @@ trait DIServiceScopeDetectorTrait
 
         if (is_array($classImplementedInterfaces) && count($classImplementedInterfaces) > 0) {
 
-            if (in_array(SingletonAwareInterface::class, $classImplementedInterfaces)) {
+            if (isset($classImplementedInterfaces[SingletonAwareInterface::class])) {
                 return ServiceScope::SINGLETON;
             }
 
-            if (in_array(PrototypeAwareInterface::class, $classImplementedInterfaces)) {
+            if (isset($classImplementedInterfaces[PrototypeAwareInterface::class])) {
                 return ServiceScope::PROTOTYPE;
             }
 
-            if (in_array(FactoryAwareInterface::class, $classImplementedInterfaces)) {
+            if (isset($classImplementedInterfaces[FactoryAwareInterface::class])) {
                 return ServiceScope::FACTORY;
             }
+
         }
 
         return $this->getAutoLoadedClassesDefaultScope();
