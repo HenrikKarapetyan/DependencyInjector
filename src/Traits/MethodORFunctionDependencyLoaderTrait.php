@@ -21,7 +21,7 @@ trait MethodORFunctionDependencyLoaderTrait
      * @param array<int, reflectionParameter> $methodParams
      * @param array<int|string, mixed>        $args
      *
-     * @throws ClassNotFoundException
+     * @throws UnknownTypeForParameterException
      *
      * @return array<int, mixed>
      */
@@ -32,32 +32,41 @@ trait MethodORFunctionDependencyLoaderTrait
         if (!empty($methodParams)) {
 
             foreach ($methodParams as $param) {
-
-                if ($param->isDefaultValueAvailable() && !isset($args[$param->getName()])) {
-                    $params[] = $param->getDefaultValue();
-
-                    continue;
-                }
-
-                if (isset($args[$param->getName()])) {
-                    $params[] = $args[$param->getName()];
-
-                    continue;
-                }
-
-                if (!$param->getType() instanceof ReflectionNamedType) {
-                    throw new UnknownTypeForParameterException($param->getName());
-                }
-                if ($this->dependencyInjector->has($param->getName())) {
-                    $params[] = $this->dependencyInjector->get($param->getName());
-
-                    continue;
-                }
-                $params[] = $this->dependencyInjector->get($param->getType()->getName());
-
+                $params[] = $this->getMethodArgumentAndValues($param, $args);
             }
         }
 
         return $params;
+    }
+
+    /**
+     * @param array<int|string, mixed> $args
+     * @param ReflectionParameter      $param
+     *
+     * @throws UnknownTypeForParameterException
+     *
+     * @return mixed
+     */
+    private function getMethodArgumentAndValues(ReflectionParameter $param, array $args = []): mixed
+    {
+
+        if ($param->isDefaultValueAvailable() && !isset($args[$param->getName()])) {
+            return $param->getDefaultValue();
+
+        }
+
+        if (isset($args[$param->getName()])) {
+            return $args[$param->getName()];
+        }
+
+        if (!$param->getType() instanceof ReflectionNamedType) {
+            throw new UnknownTypeForParameterException($param->getName());
+        }
+
+        if ($this->dependencyInjector->has($param->getName())) {
+            return $this->dependencyInjector->get($param->getName());
+        }
+
+        return $this->dependencyInjector->get($param->getType()->getName());
     }
 }

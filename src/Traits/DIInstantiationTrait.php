@@ -23,7 +23,7 @@ use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
 
-trait DIInstantiatorTrait
+trait DIInstantiationTrait
 {
     /**
      * @var ServicesContainer

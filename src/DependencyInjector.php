@@ -21,7 +21,7 @@ use Henrik\DI\Providers\PrototypeProvider;
 use Henrik\DI\Providers\SingletonProvider;
 use Henrik\DI\Traits\DIBehaviorTrait;
 use Henrik\DI\Traits\DIDebugTrait;
-use Henrik\DI\Traits\DIInstantiatorTrait;
+use Henrik\DI\Traits\DIInstantiationTrait;
 use Henrik\DI\Traits\DIServiceScopeDetectorTrait;
 use Henrik\DI\Traits\DIServicesFromClassesPathTrait;
 use Henrik\DI\Traits\DIServicesFromFileTrait;
@@ -32,7 +32,7 @@ use Henrik\DI\Traits\DIServicesFromFileTrait;
 class DependencyInjector implements DependencyInjectorInterface
 {
     use DIServicesFromFileTrait;
-    use DIInstantiatorTrait;
+    use DIInstantiationTrait;
     use DIDebugTrait;
     use DIServiceScopeDetectorTrait;
     use DIBehaviorTrait;

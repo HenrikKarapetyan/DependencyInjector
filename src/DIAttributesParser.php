@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Henrik\DI;
 
 use Henrik\Contracts\AttributeParser\AttributeParserInterface;
