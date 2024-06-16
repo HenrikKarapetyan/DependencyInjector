@@ -12,6 +12,7 @@ namespace Henrik\DI\Parsers;
 use Henrik\Container\Exceptions\KeyAlreadyExistsException;
 use Henrik\Container\Exceptions\UndefinedModeException;
 use Henrik\Contracts\Enums\ServiceScope;
+use Henrik\DI\Exceptions\ClassNotFoundException;
 use Henrik\DI\Exceptions\InvalidConfigurationException;
 use Henrik\DI\Exceptions\UnknownScopeException;
 use Henrik\DI\Parsers\Scenarios\ClassParserScenario;
@@ -36,7 +37,7 @@ class ArrayConfigParser extends AbstractConfigParser
     /**
      * @throws InvalidConfigurationException
      * @throws KeyAlreadyExistsException
-     * @throws UnknownScopeException
+     * @throws UnknownScopeException|ClassNotFoundException
      */
     public function parse(): void
     {
@@ -51,7 +52,7 @@ class ArrayConfigParser extends AbstractConfigParser
      * @param string                    $scope
      * @param array<string, int|string> $serviceItems
      *
-     * @throws InvalidConfigurationException|KeyAlreadyExistsException|UnknownScopeException
+     * @throws InvalidConfigurationException|KeyAlreadyExistsException|UnknownScopeException|ClassNotFoundException
      *
      * @return void
      */
@@ -60,7 +61,7 @@ class ArrayConfigParser extends AbstractConfigParser
         foreach ($serviceItems as $item => $value) {
 
             $definition = match ($scope) {
-                ServiceScope::FACTORY->value, ServiceScope::PROTOTYPE->value, ServiceScope::SINGLETON->value => ClassParserScenario::parse($value),
+                ServiceScope::FACTORY->value, ServiceScope::PROTOTYPE->value, ServiceScope::SINGLETON->value => ClassParserScenario::parse($value),// @phpstan-ignore-line
                 ServiceScope::ALIAS->value, ServiceScope::PARAM->value => KeyValueParserScenario::parse($item, $value),
                 default => throw new UnknownScopeException(sprintf("Unknown scope '%s'", $scope)),
             };

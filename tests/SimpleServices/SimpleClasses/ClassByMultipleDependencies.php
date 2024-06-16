@@ -7,9 +7,11 @@ class ClassByMultipleDependencies
     private string $lastName;
 
     /**
-     * @param string            $name
-     * @param string[]          $paramByDefaultValue
      * @param SimpleUserService $simpleUserService
+     * @param SimpleDefinition $simpleDefinition
+     * @param string $name
+     * @param int $age
+     * @param string[] $paramByDefaultValue
      */
     public function __construct(
         private SimpleUserService $simpleUserService,

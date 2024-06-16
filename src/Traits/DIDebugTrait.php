@@ -7,6 +7,9 @@ namespace Henrik\DI\Traits;
 use Exception;
 use Henrik\DI\Providers\ObjectProvider;
 
+/**
+ * @codeCoverageIgnore
+ */
 trait DIDebugTrait
 {
     public function dumpContainer(): void

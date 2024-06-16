@@ -14,6 +14,7 @@ use Henrik\DI\Exceptions\ServiceConfigurationException;
 use Henrik\DI\Exceptions\ServiceNotFoundException;
 use Henrik\DI\Exceptions\ServiceParameterNotFoundException;
 use Henrik\DI\Exceptions\UnknownScopeException;
+use Henrik\DI\Exceptions\UnknownTypeForParameterException;
 use Henrik\DI\ReflectionClassesContainer;
 use Henrik\DI\ServicesContainer;
 use ReflectionClass;
@@ -45,13 +46,13 @@ trait DIInstantiatorTrait
     /**
      * @param DefinitionInterface $definition
      *
-     * @throws ClassNotFoundException
      * @throws ReflectionException
      * @throws ServiceConfigurationException
      * @throws ServiceNotFoundException
      * @throws UnknownScopeException
      * @throws KeyAlreadyExistsException
-     * @throws KeyNotFoundException
+     * @throws KeyNotFoundException|ServiceParameterNotFoundException
+     * @throws ClassNotFoundException
      *
      * @return object
      */
@@ -83,8 +84,8 @@ trait DIInstantiatorTrait
      * @param object               $obj
      * @param array<string, mixed> $params
      *
+     * @throws ServiceConfigurationException|ServiceParameterNotFoundException
      * @throws KeyNotFoundException
-     * @throws ServiceConfigurationException
      *
      * @return object
      */
@@ -184,10 +185,10 @@ trait DIInstantiatorTrait
     /**
      * @param ReflectionParameter $arg
      *
-     * @throws KeyNotFoundException
      * @throws ServiceNotFoundException
      * @throws UnknownScopeException|KeyAlreadyExistsException
-     * @throws ClassNotFoundException
+     * @throws ClassNotFoundException|UnknownTypeForParameterException
+     * @throws KeyNotFoundException
      *
      * @return mixed
      */
@@ -198,7 +199,7 @@ trait DIInstantiatorTrait
         }
 
         if (!$arg->getType() instanceof ReflectionNamedType) {
-            throw new ClassNotFoundException($arg->getName());
+            throw new UnknownTypeForParameterException($arg->getName());
         }
 
         if ($this->getMode() !== InjectorModes::AUTO_REGISTER) {

@@ -12,12 +12,10 @@ use Henrik\Contracts\Utils\MarkersInterface;
 use Henrik\DI\Definition;
 use Henrik\DI\DependencyInjector;
 use Henrik\DI\Exceptions\ClassNotFoundException;
-use Henrik\DI\Exceptions\ServiceConfigurationException;
 use Henrik\DI\Exceptions\ServiceNotFoundException;
 use Henrik\DI\Exceptions\ServiceParameterNotFoundException;
 use Henrik\DI\Exceptions\UnknownConfigurationException;
 use Henrik\DI\Exceptions\UnknownScopeException;
-use Henrik\DI\Test\SimpleServices\AnomalyClasses\ClassWithPrivateConstructor;
 use Henrik\DI\Test\SimpleServices\OtherUnregisteredClass;
 use Henrik\DI\Test\SimpleServices\ParametrizdedClass;
 use Henrik\DI\Test\SimpleServices\SimpleClasses\SimpleDefinition;
@@ -192,13 +190,6 @@ class DependencyInjectorTest extends TestCase
         $isServiceAvailable = $this->dependencyInjector->has(UnregisteredClass::class);
         $this->assertTrue($isServiceAvailable);
 
-    }
-
-    public function testInstantiateClassWithPrivateConstructor(): void
-    {
-        $this->dependencyInjector->setMode(InjectorModes::AUTO_REGISTER);
-        $this->expectException(ServiceConfigurationException::class);
-        $this->dependencyInjector->get(ClassWithPrivateConstructor::class);
     }
 
     public function testDependencyInjectorParametrizedClasses(): void

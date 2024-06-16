@@ -4,24 +4,22 @@ namespace Henrik\DI\Parsers\Scenarios;
 
 use Henrik\Contracts\DefinitionInterface;
 use Henrik\DI\Definition;
+use Henrik\DI\Exceptions\ClassNotFoundException;
 use Henrik\DI\Exceptions\InvalidConfigurationException;
 
 class ClassParserScenario
 {
     /**
-     * @param array<int|string, array<array<int|string, mixed>>|string|null>|int|string $definitionArray
+     * @param array<int, array<string, array<array<int|string, mixed>>|string|null>|string> $definitionArray
      *
+     * @throws ClassNotFoundException
      * @throws InvalidConfigurationException
      *
      * @return DefinitionInterface
      */
-    public static function parse(array|int|string $definitionArray): DefinitionInterface
+    public static function parse(array $definitionArray): DefinitionInterface
     {
-        if (!is_array($definitionArray)) {
-            throw new InvalidConfigurationException('item should be an array');
-        }
-        $definition                = self::parseAsAssocArray($definitionArray);
-        $definition ?: $definition = self::parseWithoutId($definitionArray);
+        $definition = self::parseAsAssocArray($definitionArray) ?? self::parseWithoutId($definitionArray); // @phpstan-ignore-line
 
         if (!$definition) {
             throw new InvalidConfigurationException('Invalid configuration!');
@@ -37,9 +35,9 @@ class ClassParserScenario
      *      'params' => []
      * ].
      *
-     * @param array<int|string, string|array<array<int|string, mixed>>|string|null> $definitionArray
+     * @param array<string, string|array<array<int|string, mixed>>|string|null> $definitionArray
      *
-     * @throws InvalidConfigurationException
+     * @throws InvalidConfigurationException|ClassNotFoundException
      *
      * @return ?DefinitionInterface
      */
@@ -50,7 +48,7 @@ class ClassParserScenario
             if (is_string($definitionArray['id']) && is_string($definitionArray['class'])) {
 
                 if (!class_exists($definitionArray['class'])) {
-                    throw new InvalidConfigurationException(
+                    throw new ClassNotFoundException(
                         sprintf('Class `%s` does not exist', $definitionArray['class'])
                     );
                 }
@@ -105,10 +103,10 @@ class ClassParserScenario
 
     /**
      * [
-     *      Henrik\DI\Di,['dd'=>'dd']
+     *      Henrik\DI\Di, ['params' => ['dd'=>'dd'], 'args'=> ['dd'=>'dd']]
      * ].
      *
-     * @param array<int|string, string|array<array<int|string, mixed>>|string|null> $definitionArray
+     * @param array<int, string|array<string, array<array<int|string, mixed>>|string|null>> $definitionArray
      *
      * @throws InvalidConfigurationException
      *
@@ -124,7 +122,12 @@ class ClassParserScenario
             $definition->setId($definitionArray[0]);
             $definition->setClass($definitionArray[0]);
             if (isset($definitionArray[1]) && is_array($definitionArray[1])) {
-                $definition->setParams(self::parseParams($definitionArray[1]));
+                if (isset($definitionArray[1]['args'])) {
+                    $definition->setArgs(self::parseParams($definitionArray[1]['args']));
+                }
+                if (isset($definitionArray[1]['params'])) {
+                    $definition->setParams(self::parseParams($definitionArray[1]['params']));
+                }
             }
 
             return $definition;

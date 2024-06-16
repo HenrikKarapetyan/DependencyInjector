@@ -6,6 +6,7 @@ namespace Henrik\DI\Traits;
 
 use Henrik\Contracts\DependencyInjectorInterface;
 use Henrik\DI\Exceptions\ClassNotFoundException;
+use Henrik\DI\Exceptions\UnknownTypeForParameterException;
 use ReflectionNamedType;
 use ReflectionParameter;
 
@@ -34,6 +35,8 @@ trait MethodORFunctionDependencyLoaderTrait
 
                 if ($param->isDefaultValueAvailable() && !isset($args[$param->getName()])) {
                     $params[] = $param->getDefaultValue();
+
+                    continue;
                 }
 
                 if (isset($args[$param->getName()])) {
@@ -43,7 +46,7 @@ trait MethodORFunctionDependencyLoaderTrait
                 }
 
                 if (!$param->getType() instanceof ReflectionNamedType) {
-                    throw new ClassNotFoundException($param->getName());
+                    throw new UnknownTypeForParameterException($param->getName());
                 }
                 if ($this->dependencyInjector->has($param->getName())) {
                     $params[] = $this->dependencyInjector->get($param->getName());

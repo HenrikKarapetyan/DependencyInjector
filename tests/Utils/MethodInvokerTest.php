@@ -57,6 +57,6 @@ class MethodInvokerTest extends TestCase
         /** @var OtherUnregisteredClass $objInstance */
         $objInstance = $this->dependencyInjector->get(OtherUnregisteredClass::class);
         $this->expectException(MethodNotFoundException::class);
-       $this->methodInvoker->invoke($objInstance, 'simpleUnknownMethod', ['lastName' => 'developer']);
+        $this->methodInvoker->invoke($objInstance, 'simpleUnknownMethod', ['lastName' => 'developer']);
     }
 }
