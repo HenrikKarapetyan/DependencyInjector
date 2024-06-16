@@ -2,6 +2,6 @@
 
 namespace Henrik\DI\Test\SimpleServices\ServicesByInterfaces;
 
-use Henrik\DI\ServiceScopeInterfaces\SingletonAwareInterface;
+use Henrik\DI\ServiceScopeInterfaces\FactoryAwareInterface;
 
-class AsFactoryServiceByInterface implements SingletonAwareInterface {}
+class AsFactoryServiceByInterface implements FactoryAwareInterface {}

@@ -9,24 +9,18 @@ use Henrik\Contracts\DefinitionInterface;
 class Definition implements DefinitionInterface
 {
     /**
-     * @var array<string, mixed> $params
-     */
-    private array $params = [];
-
-    /**
-     * @var array<string, mixed> $args
-     */
-    private array $args = [];
-
-    private mixed $value = null;
-
-    /**
-     * @param string|null $id
-     * @param string|null $class
+     * @param string|null          $id
+     * @param string|null          $class
+     * @param array<string, mixed> $args
+     * @param array<string, mixed> $params
+     * @param mixed|null           $value
      */
     public function __construct(
         private ?string $id = null,
-        private ?string $class = null
+        private ?string $class = null,
+        private array $args = [],
+        private array $params = [],
+        private mixed $value = null
     ) {}
 
     public function getId(): ?string

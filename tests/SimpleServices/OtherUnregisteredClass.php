@@ -17,4 +17,19 @@ class OtherUnregisteredClass
 
         return $this;
     }
+
+    /**
+     * @param string $name
+     * @param string $lastName
+     *
+     * @return string[]
+     */
+    public function simpleMethod(string $name, string $lastName): array
+    {
+
+        return [
+            'name'     => $name,
+            'lastName' => $lastName,
+        ];
+    }
 }

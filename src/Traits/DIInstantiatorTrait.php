@@ -96,7 +96,7 @@ trait DIInstantiatorTrait
 
             if (!method_exists($obj, $method)) {
                 throw new ServiceParameterNotFoundException(
-                    sprintf('The object `%s` property %s not found ', json_encode($obj), $attrName)
+                    sprintf('The object `%s` method %s not found ', get_class($obj), $method)
                 );
             }
 
@@ -149,9 +149,7 @@ trait DIInstantiatorTrait
                     continue;
                 }
 
-                $paramValue = $this->getValueFromContainer($arg);
-
-                $reArgs[$arg->getName()] = $paramValue;
+                $reArgs[$arg->getName()] = $this->getValueFromContainer($arg);
 
             }
         }
@@ -203,7 +201,7 @@ trait DIInstantiatorTrait
             throw new ClassNotFoundException($arg->getName());
         }
 
-        if ($this->mode !== InjectorModes::AUTO_REGISTER) {
+        if ($this->getMode() !== InjectorModes::AUTO_REGISTER) {
 
             if ($this->serviceContainer->has($arg->getType()->getName())) {
                 $typeName = $arg->getType()->getName();

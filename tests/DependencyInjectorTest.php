@@ -40,7 +40,15 @@ class DependencyInjectorTest extends TestCase
         $services = [
             ServiceScope::PARAM->value => [
                 'cookies_data' => $this->cookies,
+                'name'         => 'developer',
+                'lastname'     => 'developer',
+                'simpleValue'  => 'simpleValue',
             ],
+
+            ServiceScope::ALIAS->value => [
+                'aliasLastname' => 'lastname',
+            ],
+
         ];
 
         $this->dependencyInjector = DependencyInjector::instance();
@@ -51,6 +59,7 @@ class DependencyInjectorTest extends TestCase
     {
         parent::tearDown();
         $this->dependencyInjector->removeAllServices();
+        unset($this->dependencyInjector, $this->cookies);
     }
 
     /**

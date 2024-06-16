@@ -2,6 +2,6 @@
 
 namespace Henrik\DI\Test\SimpleServices\ServicesByInterfaces;
 
-use Henrik\DI\ServiceScopeInterfaces\SingletonAwareInterface;
+use Henrik\DI\ServiceScopeInterfaces\PrototypeAwareInterface;
 
-class AsPrototypeServiceByInterface implements SingletonAwareInterface {}
+class AsPrototypeServiceByInterface implements PrototypeAwareInterface {}
