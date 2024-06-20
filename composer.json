@@ -49,7 +49,7 @@
     ],
     "test": [
       "Composer\\Config::disableProcessTimeout",
-      "./vendor/bin/phpunit --coverage-html=coverage"
+      "./vendor/bin/phpunit --coverage-html=coverage --testdox"
     ]
   }
 }
