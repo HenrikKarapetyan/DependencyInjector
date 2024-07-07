@@ -7,7 +7,7 @@
   "require": {
     "php": ">=8.2",
     "ext-json": "*",
-    "henrik/container": "2.0.1",
+    "henrik/container": "^2.0.2",
     "henrik/component": "^2.3",
     "henrik/contracts": "dev-main",
     "henrik/filesystem": "dev-main"
