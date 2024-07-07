@@ -10,7 +10,6 @@
     "henrik/container": "2.0.1",
     "henrik/component": "^2.3",
     "henrik/contracts": "dev-main",
-    "fzaninotto/faker": "^1.9@dev",
     "henrik/filesystem": "dev-main"
   },
   "autoload": {
@@ -28,6 +27,7 @@
     "friendsofphp/php-cs-fixer": "v3.57.2",
     "phpstan/phpstan": "2.0.x-dev",
     "phpunit/phpunit": "^11.2@dev",
+    "fzaninotto/faker": "^1.9@dev",
     "phpunit/php-code-coverage": "^11.0@dev"
   },
   "scripts": {
