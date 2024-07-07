@@ -7,8 +7,8 @@
   "require": {
     "php": ">=8.2",
     "ext-json": "*",
-    "henrik/container": "dev-master",
-    "henrik/component": "dev-master",
+    "henrik/container": "2.0.1",
+    "henrik/component": "^2.3",
     "henrik/contracts": "dev-main",
     "fzaninotto/faker": "^1.9@dev",
     "henrik/filesystem": "dev-main"
